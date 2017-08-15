@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/C:/Users/achikhale/Documents/NetBeansProjects/OpenDiabetesVault-Plotter/engine/src/de/jhit/opendiabetes/vault/processing/filter/UnderThresholdFilter.java</file>
+            <file>file:/C:/Users/achikhale/Documents/NetBeansProjects/OpenDiabetesVault-Plotter/engine/src/de/jhit/opendiabetes/vault/processing/filter/TimeSpanFilter.java</file>
+            <file>file:/C:/Users/achikhale/Documents/NetBeansProjects/OpenDiabetesVault-Plotter/engine/src/de/jhit/opendiabetes/vault/processing/filter/TempTesting.java</file>
+            <file>file:/C:/Users/achikhale/Documents/NetBeansProjects/OpenDiabetesVault-Plotter/engine/src/de/jhit/opendiabetes/vault/processing/filter/NoneFilter.java</file>
+            <file>file:/C:/Users/achikhale/Documents/NetBeansProjects/OpenDiabetesVault-Plotter/engine/src/de/jhit/opendiabetes/vault/processing/filter/TimePointFilter.java</file>
+            <file>file:/C:/Users/achikhale/Documents/NetBeansProjects/OpenDiabetesVault-Plotter/engine/test/de/jhit/opendiabetes/vault/processing/DataSlicerTest.java</file>
+            <file>file:/C:/Users/achikhale/Documents/NetBeansProjects/OpenDiabetesVault-Plotter/engine/src/de/jhit/opendiabetes/vault/util/TimestampUtils.java</file>
+            <file>file:/C:/Users/achikhale/Documents/NetBeansProjects/OpenDiabetesVault-Plotter/engine/src/de/jhit/opendiabetes/vault/processing/filter/OverThresholdFilter.java</file>
+            <file>file:/C:/Users/achikhale/Documents/NetBeansProjects/OpenDiabetesVault-Plotter/engine/src/de/jhit/opendiabetes/vault/container/SliceEntry.java</file>
+            <file>file:/C:/Users/achikhale/Documents/NetBeansProjects/OpenDiabetesVault-Plotter/engine/src/de/jhit/opendiabetes/vault/processing/DataSlicer.java</file>
+            <file>file:/C:/Users/achikhale/Documents/NetBeansProjects/OpenDiabetesVault-Plotter/engine/test/de/jhit/opendiabetes/vault/testhelper/StaticDataset.java</file>
+            <file>file:/C:/Users/achikhale/Documents/NetBeansProjects/OpenDiabetesVault-Plotter/engine/src/de/jhit/opendiabetes/vault/processing/filter/ThresholdFilter.java</file>
+            <file>file:/C:/Users/achikhale/Documents/NetBeansProjects/OpenDiabetesVault-Plotter/engine/src/de/jhit/opendiabetes/vault/processing/filter/GenericAvailableFilter.java</file>
+        </group>
+    </open-files>
+</project-private>
