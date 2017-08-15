@@ -66,12 +66,11 @@ public class TimePointFilterTest extends Assert {
         FilterResult result = instance.filter(data);
 
         for (VaultEntry entry : result.filteredData) {
-          //  assertTrue(entry.getTimestamp().toString().contains("04:46"));
-            
-            
+            //  assertTrue(entry.getTimestamp().toString().contains("04:46"));
+
             assertTrue(TimestampUtils.withinTimeSpan(LocalTime.parse("04:46"),
                     LocalTime.parse("05:01"), entry.getTimestamp())); // "05:01 because adding 15 minus to 04:46
-            
+
         }
     }
 

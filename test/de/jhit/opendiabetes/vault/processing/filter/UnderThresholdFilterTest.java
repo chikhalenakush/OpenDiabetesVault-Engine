@@ -66,7 +66,7 @@ public class UnderThresholdFilterTest extends Assert {
         FilterResult result = instance.filter(data);
 
         for (VaultEntry entry : result.filteredData) {
-            assertTrue((entry.getType().toString().equals("STRESS") && entry.getValue() <= 25.0) && result.filteredData.size()==8);
+            assertTrue((entry.getType().toString().equals("STRESS") && entry.getValue() <= 25.0) && result.filteredData.size() == 8);
 
         }
     }

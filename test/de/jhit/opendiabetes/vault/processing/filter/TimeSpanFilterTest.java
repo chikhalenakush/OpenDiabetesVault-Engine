@@ -68,7 +68,7 @@ public class TimeSpanFilterTest extends Assert {
         for (VaultEntry entry : result.filteredData) {
             assertTrue(TimestampUtils.withinTimeSpan(LocalTime.parse("12:00"),
                     LocalTime.parse("12:30"), entry.getTimestamp()));
-            
+
         }
     }
 

@@ -84,7 +84,7 @@ public class DataSlicerTest extends Assert {
         }
 
         for (int i = 0; i < result.size() - 1; i++) {
-                
+
             //SliceEntry contains Date Timestamp and long Duration. Hence both have been checked for Testing
             assertEquals(expResult.get(i).getTimestamp(), result.get(i).getTimestamp());
             assertEquals(expResult.get(i).getDuration(), result.get(i).getDuration());
@@ -105,11 +105,12 @@ public class DataSlicerTest extends Assert {
 
         List<SliceEntry> expResult = new ArrayList<>();// null;
 
-       /**************
-        * To check expected result beforehand timestamp and duration 
-        * are generated depending on what criteria has been passed
-        * to which filter. If criteria is changed these values should be changed
-        */
+        /**
+         * ************
+         * To check expected result beforehand timestamp and duration are
+         * generated depending on what criteria has been passed to which filter.
+         * If criteria is changed these values should be changed
+         */
         String DateString1 = "06/29/2017 4:46:00 AM";
         String DateString2 = "06/29/2017 6:26:00 AM";
         String DateString3 = "06/29/2017 9:00:00 AM";
@@ -143,11 +144,12 @@ public class DataSlicerTest extends Assert {
 
         List<SliceEntry> expResult = new ArrayList<>();//  null;
 
-        /**************
-        * To check expected result beforehand timestamp and duration 
-        * are generated depending on what criteria has been passed
-        * to which filter. If criteria is changed these values should be changed
-        */
+        /**
+         * ************
+         * To check expected result beforehand timestamp and duration are
+         * generated depending on what criteria has been passed to which filter.
+         * If criteria is changed these values should be changed
+         */
         String DateString1 = "06/29/2017 4:46:00 AM";
         String DateString2 = "06/29/2017 4:56:00 AM";
         String DateString3 = "06/29/2017 4:58:00 AM";
@@ -164,7 +166,7 @@ public class DataSlicerTest extends Assert {
         List<SliceEntry> result = instance.sliceData(StaticDataset.getStaticDataset());
         for (int i = 0; i < result.size() - 1; i++) {
 
-           //SliceEntry contains Date Timestamp and long Duration. Hence both have been checked for Testing
+            //SliceEntry contains Date Timestamp and long Duration. Hence both have been checked for Testing
             assertEquals(expResult.get(i).getTimestamp(), result.get(i).getTimestamp());
             assertEquals(expResult.get(i).getDuration(), result.get(i).getDuration());
         }
@@ -180,11 +182,12 @@ public class DataSlicerTest extends Assert {
 
         List<SliceEntry> expResult = new ArrayList<>();
 
-        /**************
-        * To check expected result beforehand timestamp and duration 
-        * are generated depending on what criteria has been passed
-        * to which filter. If criteria is changed these values should be changed
-        */
+        /**
+         * ************
+         * To check expected result beforehand timestamp and duration are
+         * generated depending on what criteria has been passed to which filter.
+         * If criteria is changed these values should be changed
+         */
         String DateString1 = "06/29/2017 05:00:00 AM";
         String DateString2 = "06/29/2017 08:00:00 AM";
         String DateString3 = "06/29/2017 10:00:00 AM";
@@ -218,11 +221,12 @@ public class DataSlicerTest extends Assert {
 
         List<SliceEntry> expResult = new ArrayList<>();
 
-        /**************
-        * To check expected result beforehand timestamp and duration 
-        * are generated depending on what criteria has been passed
-        * to which filter. If criteria is changed these values should be changed
-        */
+        /**
+         * ************
+         * To check expected result beforehand timestamp and duration are
+         * generated depending on what criteria has been passed to which filter.
+         * If criteria is changed these values should be changed
+         */
         String DateString1 = "06/29/2017 04:46:00 AM";
         String DateString2 = "06/29/2017 08:16:00 AM";
         String DateString3 = "06/29/2017 12:21:00 AM";
