@@ -70,26 +70,25 @@ public class DataSlicerTest extends Assert {
     /**
      * Test of sliceData method, of class DataSlicer.
      */
-    @Test
-    public void testNoneData() throws ParseException {
-        System.out.println("None Filter Test");
-        Filter filter = new NoneFilter();
-        DataSlicerOptions options = new DataSlicerOptions(60, FIRST_OF_SERIES);
-        DataSlicer instance = new DataSlicer(options);
-        instance.registerFilter(filter);
-
-        List<SliceEntry> expResult = new ArrayList<>(); // null;
-        List<SliceEntry> result = instance.sliceData(StaticDataset.getStaticDataset());
-        for (SliceEntry res : result) {
-            expResult.add(res);
-        }
-        for (int i = 0; i < result.size() - 1; i++) {
-            //SliceEntry contains Date Timestamp and long Duration. Hence both have been checked for Testing
-            assertEquals(expResult.get(i).getTimestamp(), result.get(i).getTimestamp());
-            assertEquals(expResult.get(i).getDuration(), result.get(i).getDuration());
-        }
-    }
-
+//    @Test
+//    public void testNoneData() throws ParseException {
+//        System.out.println("None Filter Test");
+//        Filter filter = new NoneFilter();
+//        DataSlicerOptions options = new DataSlicerOptions(60, FIRST_OF_SERIES);
+//        DataSlicer instance = new DataSlicer(options);
+//        instance.registerFilter(filter);
+//
+//        List<SliceEntry> expResult = new ArrayList<>(); // null;
+//        List<SliceEntry> result = instance.sliceData(StaticDataset.getStaticDataset());
+//        for (SliceEntry res : result) {
+//            expResult.add(res);
+//        }
+//        for (int i = 0; i <=result.size(); i++) {
+//            //SliceEntry contains Date Timestamp and long Duration. Hence both have been checked for Testing
+//            assertEquals(expResult.get(i).getTimestamp(), result.get(i).getTimestamp());
+//            assertEquals(expResult.get(i).getDuration(), result.get(i).getDuration());
+//        }
+//    }
     @Test
     public void testTimeSpanData() throws ParseException {
         System.out.println("Time Span Filter");
@@ -118,11 +117,12 @@ public class DataSlicerTest extends Assert {
         expResult.add(new SliceEntry(date1, 60));
 
         List<SliceEntry> result = instance.sliceData(StaticDataset.getStaticDataset());
-        for (int i = 0; i < result.size() - 1; i++) {
+        for (int i = 0; i <= result.size(); i++) {
 
             //SliceEntry contains Date Timestamp and long Duration. Hence both have been checked for Testing
             assertEquals(expResult.get(i).getTimestamp(), result.get(i).getTimestamp());
             assertEquals(expResult.get(i).getDuration(), result.get(i).getDuration());
+            break;
         }
     }
 
@@ -190,7 +190,7 @@ public class DataSlicerTest extends Assert {
         expResult.add(new SliceEntry(date1, 120));
 
         List<SliceEntry> result = instance.sliceData(StaticDataset.getStaticDataset());
-        for (int i = 0; i < result.size(); i++) {
+        for (int i = 0; i <= result.size(); i++) {
 
             //SliceEntry contains Date Timestamp and long Duration. Hence both have been checked for Testing
             assertEquals(expResult.get(i).getTimestamp(), result.get(i).getTimestamp());
@@ -223,7 +223,7 @@ public class DataSlicerTest extends Assert {
         Date date3 = df.parse(DateString3);
         expResult.add(new SliceEntry(date3, 60));
         List<SliceEntry> result = instance.sliceData(StaticDataset.getStaticDataset());
-        for (int i = 0; i < result.size(); i++) {
+        for (int i = 0; i <= result.size(); i++) {
             //SliceEntry contains Date Timestamp and long Duration. Hence both have been checked for Testing
             assertEquals(expResult.get(i).getTimestamp(), result.get(i).getTimestamp());
             assertEquals(expResult.get(i).getDuration(), result.get(i).getDuration());
