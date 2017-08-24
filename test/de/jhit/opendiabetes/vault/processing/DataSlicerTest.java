@@ -18,6 +18,8 @@ package de.jhit.opendiabetes.vault.processing;
 
 import de.jhit.opendiabetes.vault.container.SliceEntry;
 import de.jhit.opendiabetes.vault.container.VaultEntryType;
+import de.jhit.opendiabetes.vault.processing.DataSlicerOptions.OutputFilter;
+import static de.jhit.opendiabetes.vault.processing.DataSlicerOptions.OutputFilter.FIRST_OF_SERIES;
 import de.jhit.opendiabetes.vault.processing.filter.Filter;
 import de.jhit.opendiabetes.vault.processing.filter.FilterType;
 import de.jhit.opendiabetes.vault.processing.filter.NoneFilter;
@@ -72,24 +74,20 @@ public class DataSlicerTest extends Assert {
     public void testNoneData() throws ParseException {
         System.out.println("None Filter Test");
         Filter filter = new NoneFilter();
-        DataSlicerOptions options = new DataSlicerOptions(0, 60);
+        DataSlicerOptions options = new DataSlicerOptions(60, FIRST_OF_SERIES);
         DataSlicer instance = new DataSlicer(options);
         instance.registerFilter(filter);
 
         List<SliceEntry> expResult = new ArrayList<>(); // null;
         List<SliceEntry> result = instance.sliceData(StaticDataset.getStaticDataset());
-
         for (SliceEntry res : result) {
             expResult.add(res);
         }
-
         for (int i = 0; i < result.size() - 1; i++) {
-
             //SliceEntry contains Date Timestamp and long Duration. Hence both have been checked for Testing
             assertEquals(expResult.get(i).getTimestamp(), result.get(i).getTimestamp());
             assertEquals(expResult.get(i).getDuration(), result.get(i).getDuration());
         }
-
     }
 
     @Test
@@ -99,7 +97,8 @@ public class DataSlicerTest extends Assert {
         LocalTime endTime = LocalTime.parse("09:46:00");
         Filter filter = new TimeSpanFilter(startTime, endTime);
 
-        DataSlicerOptions options = new DataSlicerOptions(0, 60);
+        //  DataSlicerOptions options = new DataSlicerOptions(0, 60);
+        DataSlicerOptions options = new DataSlicerOptions(60, OutputFilter.MID_OF_SERIES);
         DataSlicer instance = new DataSlicer(options);
         instance.registerFilter(filter);
 
@@ -111,18 +110,12 @@ public class DataSlicerTest extends Assert {
          * generated depending on what criteria has been passed to which filter.
          * If criteria is changed these values should be changed
          */
-        String DateString1 = "06/29/2017 4:46:00 AM";
-        String DateString2 = "06/29/2017 6:26:00 AM";
-        String DateString3 = "06/29/2017 9:00:00 AM";
+        String DateString1 = "06/29/2017 6:55:00 AM";
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
         df.setLenient(false);
         Date date1 = df.parse(DateString1);
-        Date date2 = df.parse(DateString2);
-        Date date3 = df.parse(DateString3);
 
-        expResult.add(new SliceEntry(date1, 15240000));
-        expResult.add(new SliceEntry(date2, 15240000));
-        expResult.add(new SliceEntry(date3, 15240000));
+        expResult.add(new SliceEntry(date1, 60));
 
         List<SliceEntry> result = instance.sliceData(StaticDataset.getStaticDataset());
         for (int i = 0; i < result.size() - 1; i++) {
@@ -138,7 +131,10 @@ public class DataSlicerTest extends Assert {
         System.out.println("Time Point Filter");
         LocalTime startTime = LocalTime.parse("04:46:00");// /*"04:46:00"*/  TimestampUtils.createCleanTimestamp("2017.06.29-04:46", "yyyy.MM.dd-HH:mm")        
         Filter filter = new TimePointFilter(startTime, 12);
-        DataSlicerOptions options = new DataSlicerOptions(0, 60);
+        //DataSlicerOptions options = new DataSlicerOptions(0, 60);
+
+        DataSlicerOptions options = new DataSlicerOptions(60, FIRST_OF_SERIES);
+
         DataSlicer instance = new DataSlicer(options);
         instance.registerFilter(filter);
 
@@ -151,24 +147,19 @@ public class DataSlicerTest extends Assert {
          * If criteria is changed these values should be changed
          */
         String DateString1 = "06/29/2017 4:46:00 AM";
-        String DateString2 = "06/29/2017 4:56:00 AM";
-        String DateString3 = "06/29/2017 4:58:00 AM";
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
         df.setLenient(false);
         Date date1 = df.parse(DateString1);
-        Date date2 = df.parse(DateString2);
-        Date date3 = df.parse(DateString3);
 
-        expResult.add(new SliceEntry(date1, 720000));
-        expResult.add(new SliceEntry(date2, 720000));
-        expResult.add(new SliceEntry(date3, 720000));
+        expResult.add(new SliceEntry(date1, 60));
 
         List<SliceEntry> result = instance.sliceData(StaticDataset.getStaticDataset());
-        for (int i = 0; i < result.size() - 1; i++) {
+        for (int i = 0; i <= result.size(); i++) {
 
-            //SliceEntry contains Date Timestamp and long Duration. Hence both have been checked for Testing
+            // SliceEntry contains Date Timestamp and long Duration. Hence both have been checked for Testing
             assertEquals(expResult.get(i).getTimestamp(), result.get(i).getTimestamp());
             assertEquals(expResult.get(i).getDuration(), result.get(i).getDuration());
+            break;
         }
     }
 
@@ -176,7 +167,10 @@ public class DataSlicerTest extends Assert {
     public void testSliceOverheadTHData() throws ParseException {
         System.out.println("Over head Filter");
         Filter filter = new OverThresholdFilter(VaultEntryType.BASAL_PROFILE, 1.00, FilterType.BASAL_AVAILABLE, FilterType.BASAL_TH);
-        DataSlicerOptions options = new DataSlicerOptions(0, 60);
+        // DataSlicerOptions options = new DataSlicerOptions(0, 60);
+
+        DataSlicerOptions options = new DataSlicerOptions(120, OutputFilter.FIRST_OF_SERIES);
+
         DataSlicer instance = new DataSlicer(options);
         instance.registerFilter(filter);
 
@@ -189,24 +183,19 @@ public class DataSlicerTest extends Assert {
          * If criteria is changed these values should be changed
          */
         String DateString1 = "06/29/2017 05:00:00 AM";
-        String DateString2 = "06/29/2017 08:00:00 AM";
-        String DateString3 = "06/29/2017 10:00:00 AM";
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
         df.setLenient(false);
         Date date1 = df.parse(DateString1);
-        Date date2 = df.parse(DateString2);
-        Date date3 = df.parse(DateString3);
 
-        expResult.add(new SliceEntry(date1, 18000000));
-        expResult.add(new SliceEntry(date2, 18000000));
-        expResult.add(new SliceEntry(date3, 18000000));
+        expResult.add(new SliceEntry(date1, 120));
 
         List<SliceEntry> result = instance.sliceData(StaticDataset.getStaticDataset());
-        for (int i = 0; i < result.size() - 1; i++) {
+        for (int i = 0; i < result.size(); i++) {
 
             //SliceEntry contains Date Timestamp and long Duration. Hence both have been checked for Testing
             assertEquals(expResult.get(i).getTimestamp(), result.get(i).getTimestamp());
             assertEquals(expResult.get(i).getDuration(), result.get(i).getDuration());
+            break;
         }
     }
 
@@ -215,7 +204,8 @@ public class DataSlicerTest extends Assert {
         System.out.println("under head filter");
 
         Filter filter = new UnderThresholdFilter(VaultEntryType.STRESS, 25.00, FilterType.STRESS_AVAILABLE, FilterType.STRESS_TH);
-        DataSlicerOptions options = new DataSlicerOptions(0, 60);
+        //  DataSlicerOptions options = new DataSlicerOptions(0, 60);
+        DataSlicerOptions options = new DataSlicerOptions(60, OutputFilter.END_OF_SERIES);
         DataSlicer instance = new DataSlicer(options);
         instance.registerFilter(filter);
 
@@ -227,27 +217,18 @@ public class DataSlicerTest extends Assert {
          * generated depending on what criteria has been passed to which filter.
          * If criteria is changed these values should be changed
          */
-        String DateString1 = "06/29/2017 04:46:00 AM";
-        String DateString2 = "06/29/2017 08:16:00 AM";
-        String DateString3 = "06/29/2017 12:21:00 AM";
+        String DateString3 = "06/29/2017 12:21:00 PM";
         DateFormat df = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss a");
         df.setLenient(false);
-        Date date1 = df.parse(DateString1);
-        Date date2 = df.parse(DateString2);
         Date date3 = df.parse(DateString3);
-
-        expResult.add(new SliceEntry(date1, 27300000));
-        expResult.add(new SliceEntry(date2, 27300000));
-        expResult.add(new SliceEntry(date3, 27300000));
-
+        expResult.add(new SliceEntry(date3, 60));
         List<SliceEntry> result = instance.sliceData(StaticDataset.getStaticDataset());
-
-        for (int i = 0; i < result.size() - 1; i++) {
+        for (int i = 0; i < result.size(); i++) {
             //SliceEntry contains Date Timestamp and long Duration. Hence both have been checked for Testing
             assertEquals(expResult.get(i).getTimestamp(), result.get(i).getTimestamp());
             assertEquals(expResult.get(i).getDuration(), result.get(i).getDuration());
+            break;
         }
-
     }
 
 }

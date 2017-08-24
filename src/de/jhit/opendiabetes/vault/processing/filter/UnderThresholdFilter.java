@@ -119,11 +119,13 @@ public class UnderThresholdFilter implements Filter {
                     startOfCuttenTimeSeries = entry.getTimestamp();
                 }
                 lastTimeStamp = entry.getTimestamp();
-                if (startOfCuttenTimeSeries != null) {
-                    timeSeries.add(new Pair<>(startOfCuttenTimeSeries, lastTimeStamp));
-                }
             }
         }
+
+        if (startOfCuttenTimeSeries != null) {
+            timeSeries.add(new Pair<>(startOfCuttenTimeSeries, lastTimeStamp));
+        }
+
         return new FilterResult(filteredData, timeSeries);
     }
 

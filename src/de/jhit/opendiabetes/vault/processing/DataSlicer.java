@@ -20,11 +20,13 @@ import de.jhit.opendiabetes.vault.container.SliceEntry;
 import de.jhit.opendiabetes.vault.container.VaultEntry;
 import de.jhit.opendiabetes.vault.processing.filter.Filter;
 import de.jhit.opendiabetes.vault.processing.filter.FilterResult;
+import de.jhit.opendiabetes.vault.processing.filter.TimeSpanFilter;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javafx.util.Pair;
 
 /**
  *
@@ -66,30 +68,32 @@ public class DataSlicer {
         // --> mid point of series
         // --> none (would return for every point in the series a slice entry)
 
-        Long Duration = null;
-        Date Timestart = null, TimeMid = null, TimeEnd = null;
+        if (lastResult != null) {
+            for (Pair<Date, Date> item : lastResult.timeSeries) {
+                Date tmpTimestamp = null;
+                switch (options.outputFilter) {
+                    case FIRST_OF_SERIES:
+                        tmpTimestamp = item.getKey();
+                        break;
+                    case MID_OF_SERIES:
+                        // TODO find the mid TIMEPOINT (not the timestamp in the middle)
+                        // calclulate timepoint in the middle between first and last timestamp of series
+                        // find the timestamp nearest to the calculated timepoint in filtered data                      
+                        tmpTimestamp = generateMidPoint(lastResult, new Date((item.getValue().getTime() + item.getKey().getTime()) / 2));
 
-        if ((registeredFilter.get(0)).toString().contains("NoneFilter")) {
-            Timestart = lastResult.filteredData.get(0).getTimestamp();
-            TimeEnd = lastResult.filteredData.get(lastResult.filteredData.size() - 1).getTimestamp();;
-            Duration = TimeEnd.getTime() - Timestart.getTime();
-            for (VaultEntry entry : data) {
-                retVal.add(new SliceEntry(entry.getTimestamp(), Duration));
+                        break;
+                    case END_OF_SERIES:
+                        tmpTimestamp = item.getValue();
+                        break;
+                    default:
+                        //  Logger.getLogger(DataSlicer.class.getName()).severe("ASSERTION ERROR: Unknown filter case!");
+                        throw new AssertionError("Unknown output filter");
+                }
+                if (tmpTimestamp != null) {
+                    SliceEntry tmpEntry = new SliceEntry(tmpTimestamp, options.duration);
+                    retVal.add(tmpEntry);
+                }
             }
-
-        } else {
-            if (lastResult.filteredData != null && lastResult.timeSeries != null && lastResult.filteredData.size() > 0) {
-                Timestart = lastResult.filteredData.get(0).getTimestamp();
-                int temp;
-                temp = ((lastResult.filteredData.size())) / 2;
-                TimeMid = lastResult.filteredData.get(temp).getTimestamp();
-                TimeEnd = lastResult.filteredData.get(lastResult.filteredData.size() - 1).getTimestamp();;
-                Duration = TimeEnd.getTime() - Timestart.getTime();
-                retVal.add(new SliceEntry(Timestart, Duration));
-                retVal.add(new SliceEntry(TimeMid, Duration));
-                retVal.add(new SliceEntry(TimeEnd, Duration));
-            }
-
         }
         return retVal;
     }
@@ -102,5 +106,29 @@ public class DataSlicer {
      */
     public void registerFilter(Filter filter) {
         registeredFilter.add(filter);
+    }
+
+    private Date generateMidPoint(FilterResult lastResult, Date temporary) {
+        int localTempVar = -1;
+        for (int i = 0; i < lastResult.filteredData.size(); i++) {
+            if (lastResult.filteredData.get(i).getTimestamp().getTime() >= temporary.getTime()) {
+                // return lastResult.filteredData.get(i).getTimestamp();
+                localTempVar = i;
+                break;
+
+            }
+        }
+        if (localTempVar >= 0) {
+            int previousValueofMidpoint = (int) (temporary.getTime() - lastResult.filteredData.get(localTempVar - 1).getTimestamp().getTime());
+            int nextValueofMidpoint = (int) (lastResult.filteredData.get(localTempVar).getTimestamp().getTime() - temporary.getTime());
+            if (previousValueofMidpoint <= nextValueofMidpoint) {
+                return lastResult.filteredData.get(localTempVar - 1).getTimestamp(); //smaller value from midppoint calculated
+            } else {
+                return lastResult.filteredData.get(localTempVar).getTimestamp(); //higher value from  midpoint calculated
+            }
+
+        } else {
+            return null;
+        }
     }
 }
